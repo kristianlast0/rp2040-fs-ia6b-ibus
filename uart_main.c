@@ -54,13 +54,12 @@ uint16_t normalize(uint16_t value, uint8_t type) {
 
 void on_uart_rx() {
     // get the first byte of the message
-    uint8_t ch = uart_getc(UART_ID);
+    uint8_t fb = uart_getc(UART_ID);
     // get the length of the message and check if valid (between 0x03 and 0x20)
-    if (ch <= PROTOCOL_LENGTH && ch > PROTOCOL_OVERHEAD) {
-        // valid length received
+    if (fb <= PROTOCOL_LENGTH && fb > PROTOCOL_OVERHEAD) {
         ptr = 0; // reset pointer
-        len = ch - PROTOCOL_OVERHEAD; // set length of message
-        chksum = 0xFFFF - ch; // calculate checksum
+        len = fb - PROTOCOL_OVERHEAD; // set length of message
+        chksum = 0xFFFF - fb; // calculate checksum
         while(ptr < len) {
             // get data and update checksum
             uint8_t value = uart_getc(UART_ID); // get data
@@ -72,7 +71,7 @@ void on_uart_rx() {
         if(chksum == (hchksum << 8) + lchksum) {
             // valid servo command received
             if(buffer[0] == 0x40) {
-                // extract channel data from buffer (little endian) and store in array (big endian)
+                // extract channel data from buffer
                 for (uint8_t i = 1; i < PROTOCOL_CHANNELS * 2 + 1; i += 2) {
                     channel[i / 2] = buffer[i] | (buffer[i + 1] << 8);
                 }
@@ -82,7 +81,7 @@ void on_uart_rx() {
 }
 
 int main() {
-    // initialize the standard I/O library
+    // Initialize the standard I/O library
     stdio_init_all();
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
@@ -104,7 +103,7 @@ int main() {
     irq_set_enabled(UART_IRQ, true);
     // Now enable the UART to send interrupts - RX only
     uart_set_irq_enables(UART_ID, true, false);
-
+    // The main loop
     while (true) {
         gpio_put(LED_PIN, 1);
         sleep_ms(250);
