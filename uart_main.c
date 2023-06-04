@@ -30,7 +30,7 @@
 #define BAUD_RATE 115200
 #define DATA_BITS 8
 #define STOP_BITS 1
-#define PARITY  UART_PARITY_NONE
+#define PARITY UART_PARITY_NONE
 #define PROTOCOL_LENGTH 0x20
 #define PROTOCOL_OVERHEAD 0x03
 #define PROTOCOL_COMMAND40 0x40;
@@ -40,7 +40,6 @@
 #define LED_PIN 18
 
 uint16_t channel[PROTOCOL_CHANNELS];
-uint32_t lastTimeInMilliseconds = 0;
 uint8_t buffer[32];
 uint8_t ptr = 0;
 uint8_t len = 0;
@@ -48,6 +47,7 @@ uint16_t chksum = 0;
 uint16_t lchksum = 0;
 uint16_t hchksum = 0;
 
+// normalize the value to a range between 0 and 100
 uint16_t normalize(uint16_t value, uint8_t type) {
     return ((value - 1000) / 10);
 }
@@ -82,11 +82,10 @@ void on_uart_rx() {
 }
 
 int main() {
-
+    // initialize the standard I/O library
     stdio_init_all();
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
-
     // Set up our UART with a basic baud rate.
     uart_init(UART_ID, BAUD_RATE);
     // Set the TX and RX pins by using the function select on the GPIO
@@ -98,8 +97,6 @@ int main() {
     uart_set_format(UART_ID, DATA_BITS, STOP_BITS, PARITY);
     // Turn off FIFO's - we want to do this character by character
     uart_set_fifo_enabled(UART_ID, true);
-    // Set up a RX interrupt
-    // We need to set up the handler first
     // Select correct interrupt for the UART we are using
     int UART_IRQ = UART_ID == uart0 ? UART0_IRQ : UART1_IRQ;
     // And set up and enable the interrupt handlers
@@ -107,12 +104,8 @@ int main() {
     irq_set_enabled(UART_IRQ, true);
     // Now enable the UART to send interrupts - RX only
     uart_set_irq_enables(UART_ID, true, false);
-    // Lets send a basic string out, and then run a loop and wait for RX interrupts
-    // The handler will count them, but also reflect the incoming data back with a slight change!
-    // uart_puts(UART_ID, "\nHello, uart interrupts\n");
 
     while (true) {
-        // printf("Hello, world!\n");
         gpio_put(LED_PIN, 1);
         sleep_ms(250);
         gpio_put(LED_PIN, 0);
@@ -128,5 +121,3 @@ int main() {
         );
     }
 }
-
-// /// \end:uart_advanced[]
