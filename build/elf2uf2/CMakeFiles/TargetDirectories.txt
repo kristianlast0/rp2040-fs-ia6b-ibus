@@ -1,0 +1,5 @@
+/home/k/Software/micro-processors/rp2040-rd-remote/c++/build/elf2uf2/CMakeFiles/elf2uf2.dir
+/home/k/Software/micro-processors/rp2040-rd-remote/c++/build/elf2uf2/CMakeFiles/edit_cache.dir
+/home/k/Software/micro-processors/rp2040-rd-remote/c++/build/elf2uf2/CMakeFiles/rebuild_cache.dir
+/home/k/Software/micro-processors/rp2040-rd-remote/c++/build/elf2uf2/boot_uf2_headers/CMakeFiles/edit_cache.dir
+/home/k/Software/micro-processors/rp2040-rd-remote/c++/build/elf2uf2/boot_uf2_headers/CMakeFiles/rebuild_cache.dir
