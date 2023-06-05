@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
 #include "hardware/irq.h"
@@ -42,13 +43,14 @@
 #define PROTOCOL_CHANNELS 6
 
 // Motor pins
-#define PWM_A 0
-#define IN1A 0
-#define IN2A 0
-#define PWM_B 0
-#define IN1B 0
-#define IN2B 0
-#define STBY 0
+#define PWM_WRAP 500
+#define PWM_A 0 // 0
+#define IN1A 2 // 2
+#define IN2A 1 // 1
+#define PWM_B 7 // 7
+#define IN1B 4 // 4
+#define IN2B 6 // 6
+#define STBY 3 // 3
 
 // UART vars
 uint16_t channel[PROTOCOL_CHANNELS];
@@ -60,36 +62,103 @@ uint16_t lchksum = 0;
 uint16_t hchksum = 0;
 
 struct motorA {
-    pwm: PWM_A, // GPIO Pin PWM channel
-    in1: IN1A, // GPIO pin
-    in2: IN2A, // GPIO pin
-    speed: 0, // 0 - 100
+    pwm: PWM_A, // Pin PWM channel
+    in1: IN1A, // Pin
+    in2: IN2A, // Pin
+    speed: 0, // 0 - PWM_WRAP
     direction: 1, // 1 = forward, 0 = backward
 };
 
 struct motorB {
-    pwm: PWM_B, // GPIO Pin PWM channel
-    in1: IN1B, // GPIO pin
-    in2: IN2B, // GPIO pin
-    speed: 0, // 0 - 100
+    pwm: PWM_B, // Pin PWM channel
+    in1: IN1B, // Pin
+    in2: IN2B, // Pin
+    speed: 0, // 0 - PWM_WRAP
     direction: 1, // 1 = forward, 0 = backward
 };
 
-// normalize the value to a range between 0 and 100
-uint16_t normalize(uint16_t value, uint8_t type) {
-    return ((value - 1000) / 10);
+// Function to normalize values
+int normalize(double value, double old_min, double old_max, double new_min, double new_max) {
+    // Check if value is within old range
+    if (value < old_min || value > old_max) {
+        printf("Value is out of old range, returning 0\n");
+        return 0;
+    }
+    // Check if new_min is less than new_max
+    if (new_min >= new_max) {
+        printf("Invalid new range, returning 0\n");
+        return 0;
+    }
+    double old_range = old_max - old_min;
+    double new_range = new_max - new_min;
+    double normalized_value = (((value - old_min) * new_range) / old_range) + new_min;
+    return round(normalized_value);  // round to the nearest integer
+}
+
+int calculate_motor_speeds() {
+
+    // get acceleration speed and direction
+    uint16_t speed = channel[2]; // 1000 - 2000
+    uint16_t steer = channel[0]; // 1000 - 2000
+
+    // check if moving foward or backward (+-10 tolerance)
+    if(speed >= 1510 && speed <= 2000) {
+        // forward
+        motorA.direction = 1;
+        motorB.direction = 1;
+    }
+    else if(speed >= 1000 && speed <= 1490) {
+        // backward
+        motorA.direction = 0;
+        motorB.direction = 0;
+    }
+    else {
+        // stop
+        motorA.direction = 1;
+        motorB.direction = 1;
+        speed = 1500;
+    }
+
+    // STEERING POWER ==================================================================================================
+    if(steer > 1510 && steer <= 2000) {
+        // turn right - reduce speed of motorB
+        double turn_perc = (steer-1500)/500*100;
+        // reduce the speed of motorB by turn_perc
+        speed_reduction = speed * (turn_perc/100);
+        // set motorB (right wheel) speed to speed-speed_reduction to turn right
+        motorB.speed = normalize(round(speed-speed_reduction), 1000, 2000, 0, PWM_WRAP);
+    }
+    else if(steer >= 1000 && steer < 1490) {
+        // turn left - reduce speed of motorB
+        double turn_perc = abs(steer-1500)/500*100;
+        // reduce the speed of motorB by turn_perc
+        speed_reduction = speed * (turn_perc/100);
+        // set motorB (left wheel) speed to speed-speed_reduction to turn left
+        motorA.speed = normalize(round(speed-speed_reduction), 1000, 2000, 0, PWM_WRAP);
+    }
+    else {
+        // both motors are same speed
+        motorA.speed = normalize(speed, 1000, 2000, 0, PWM_WRAP);
+        motorB.speed = normalize(speed, 1000, 2000, 0, PWM_WRAP);
+    }
+
+    printf("A: %d B: %d\n", motorA.speed, motorB.speed);
+
 }
 
 // set a motor direction
-void set_motor(struct motor, uint8_t speed, uint8_t direction) {
+void update_motor(struct motor) {
     if (direction == 0) {
-        // Backwards
-        // write motor.IN1 = LOW and motor.IN2 = HIGH
+        // Backwards // write motor.IN1 = LOW and motor.IN2 = HIGH
+        gpio_put(motor.in1, 0);
+        gpio_put(motor.in2, 1);
     } else {
-        // Forwards
-        // write motor.IN1 = HIGH and motor.IN2 = LOW
+        // Forwards // write motor.IN1 = HIGH and motor.IN2 = LOW
+        gpio_put(motor.in1, 1);
+        gpio_put(motor.in2, 0);
     }
     // write motor.PWM = speed
+    pwm_set_gpio_level(motor.pwm, motor.speed);
 }
 
 void on_uart_rx() {
@@ -121,10 +190,11 @@ void on_uart_rx() {
 }
 
 int main() {
-    // Initialize the standard I/O library
+    // Initialize the standard I/O library and setup LED pin
     stdio_init_all();
-    gpio_init(RED_PIN);
+    gpio_init(RED_PIN, motorA.in1, motorA.in2, motorB.in1, motorB.in2, STBY);
     gpio_set_dir(RED_PIN, GPIO_OUT);
+    // Init the UART for our receiver
     // Set up our UART with a basic baud rate.
     uart_init(UART_ID, BAUD_RATE);
     // Set the TX and RX pins by using the function select on the GPIO
@@ -142,6 +212,27 @@ int main() {
     irq_set_enabled(UART_IRQ, true);
     // Now enable the UART to send interrupts - RX only
     uart_set_irq_enables(UART_ID, true, false);
+    // Initialize motors =======================================================
+    // enable GPIO port to PWM
+    gpio_set_dir(motorA.in1, GPIO_OUT);
+    gpio_set_dir(motorA.in2, GPIO_OUT);
+    gpio_set_dir(motorB.in1, GPIO_OUT);
+    gpio_set_dir(motorB.in2, GPIO_OUT);
+    // set GPIO function to PWM
+    gpio_set_function(motorA.pwm, GPIO_FUNC_PWM);
+    gpio_set_function(motorB.pwm, GPIO_FUNC_PWM);
+    // Find out which PWM slice is connected to our GPIO pin
+    uint slice_numA = pwm_gpio_to_slice_num(motorA.pwm);
+    uint slice_numB = pwm_gpio_to_slice_num(motorB.pwm);
+    // enable PWM channels
+    pwm_set_enabled(slice_numA, true);
+    pwm_set_enabled(slice_numB, true);
+    // set PWM wrap, in microseconds
+    pwm_set_wrap(slice_numA, PWM_WRAP);
+    pwm_set_wrap(slice_numB, PWM_WRAP);
+    // set PWM channels
+    pwm_set_chan_level(slice_numA, motorA.pwm, motorA.speed);
+    pwm_set_chan_level(slice_numB, motorB.pwm, motorB.speed);
     // The main loop
     while (true) {
         gpio_put(RED_PIN, 1);
@@ -150,12 +241,15 @@ int main() {
         sleep_ms(250);
         printf(
             "Channel 1: %d Channel 2: %d Channel 3: %d Channel 4: %d Channel 5: %d Channel 6: %d \n",
-            normalize(channel[0], 0),
-            normalize(channel[1], 0),
-            normalize(channel[2], 0),
-            normalize(channel[3], 0),
-            normalize(channel[4], 1),
-            normalize(channel[5], 1)
+            channel[0], // right stick left/right - steering
+            channel[1], // right stick up/down
+            channel[2], // acceleration - left stick up/down
+            channel[3], // left stick left/right
+            channel[4], // potentiometer left
+            channel[5] // potentiometer right
         );
+        calculate_motor_speeds();
+        // update_motor(motorA);
+        // update_motor(motorB);
     }
 }
