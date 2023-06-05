@@ -38,13 +38,13 @@
 #define UART_RX_PIN 5
 #define RED_PIN 18
 
-uint16_t channel[PROTOCOL_CHANNELS];
 uint8_t buffer[32];
 uint8_t ptr = 0;
 uint8_t len = 0;
 uint16_t chksum = 0;
 uint16_t lchksum = 0;
 uint16_t hchksum = 0;
+uint16_t channel[PROTOCOL_CHANNELS];
 
 // normalize the value to a range between 0 and 100
 uint16_t normalize(uint16_t value, uint8_t type) {
