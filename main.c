@@ -26,6 +26,11 @@
     Checksum: DA F3 -> calculated by adding up all previous bytes, total must be FFFF
  */
 
+// LED pins
+#define RED_PIN 18
+
+// Receiver pins
+#define UART_RX_PIN 5
 #define UART_ID uart1
 #define BAUD_RATE 115200
 #define DATA_BITS 8
@@ -35,20 +40,56 @@
 #define PROTOCOL_OVERHEAD 0x03
 #define PROTOCOL_COMMAND40 0x40
 #define PROTOCOL_CHANNELS 6
-#define UART_RX_PIN 5
-#define RED_PIN 18
 
+// Motor pins
+#define PWM_A 0
+#define IN1A 0
+#define IN2A 0
+#define PWM_B 0
+#define IN1B 0
+#define IN2B 0
+#define STBY 0
+
+// UART vars
+uint16_t channel[PROTOCOL_CHANNELS];
 uint8_t buffer[32];
 uint8_t ptr = 0;
 uint8_t len = 0;
 uint16_t chksum = 0;
 uint16_t lchksum = 0;
 uint16_t hchksum = 0;
-uint16_t channel[PROTOCOL_CHANNELS];
+
+struct motorA {
+    pwm: PWM_A, // GPIO Pin PWM channel
+    in1: IN1A, // GPIO pin
+    in2: IN2A, // GPIO pin
+    speed: 0, // 0 - 100
+    direction: 1, // 1 = forward, 0 = backward
+};
+
+struct motorB {
+    pwm: PWM_B, // GPIO Pin PWM channel
+    in1: IN1B, // GPIO pin
+    in2: IN2B, // GPIO pin
+    speed: 0, // 0 - 100
+    direction: 1, // 1 = forward, 0 = backward
+};
 
 // normalize the value to a range between 0 and 100
 uint16_t normalize(uint16_t value, uint8_t type) {
     return ((value - 1000) / 10);
+}
+
+// set a motor direction
+void set_motor(struct motor, uint8_t speed, uint8_t direction) {
+    if (direction == 0) {
+        // Backwards
+        // write motor.IN1 = LOW and motor.IN2 = HIGH
+    } else {
+        // Forwards
+        // write motor.IN1 = HIGH and motor.IN2 = LOW
+    }
+    // write motor.PWM = speed
 }
 
 void on_uart_rx() {
