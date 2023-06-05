@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/rccar.dir/main.c.obj"
+  "CMakeFiles/rccar.dir/main.c.obj.d"
   "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj"
   "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj.d"
   "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj"
@@ -124,8 +126,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj.d"
   "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj"
   "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
-  "CMakeFiles/rccar.dir/uart_main.c.obj"
-  "CMakeFiles/rccar.dir/uart_main.c.obj.d"
   "rccar.elf"
   "rccar.pdb"
 )

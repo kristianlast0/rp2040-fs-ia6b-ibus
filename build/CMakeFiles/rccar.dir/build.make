@@ -69,19 +69,19 @@ include CMakeFiles/rccar.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/rccar.dir/flags.make
 
-CMakeFiles/rccar.dir/uart_main.c.obj: CMakeFiles/rccar.dir/flags.make
-CMakeFiles/rccar.dir/uart_main.c.obj: /home/k/Software/micro-processors/rp2040-rd-remote/c++/uart_main.c
-CMakeFiles/rccar.dir/uart_main.c.obj: CMakeFiles/rccar.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/k/Software/micro-processors/rp2040-rd-remote/c++/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/rccar.dir/uart_main.c.obj"
-	/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/rccar.dir/uart_main.c.obj -MF CMakeFiles/rccar.dir/uart_main.c.obj.d -o CMakeFiles/rccar.dir/uart_main.c.obj -c /home/k/Software/micro-processors/rp2040-rd-remote/c++/uart_main.c
+CMakeFiles/rccar.dir/main.c.obj: CMakeFiles/rccar.dir/flags.make
+CMakeFiles/rccar.dir/main.c.obj: /home/k/Software/micro-processors/rp2040-rd-remote/c++/main.c
+CMakeFiles/rccar.dir/main.c.obj: CMakeFiles/rccar.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/k/Software/micro-processors/rp2040-rd-remote/c++/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/rccar.dir/main.c.obj"
+	/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/rccar.dir/main.c.obj -MF CMakeFiles/rccar.dir/main.c.obj.d -o CMakeFiles/rccar.dir/main.c.obj -c /home/k/Software/micro-processors/rp2040-rd-remote/c++/main.c
 
-CMakeFiles/rccar.dir/uart_main.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/rccar.dir/uart_main.c.i"
-	/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/k/Software/micro-processors/rp2040-rd-remote/c++/uart_main.c > CMakeFiles/rccar.dir/uart_main.c.i
+CMakeFiles/rccar.dir/main.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/rccar.dir/main.c.i"
+	/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/k/Software/micro-processors/rp2040-rd-remote/c++/main.c > CMakeFiles/rccar.dir/main.c.i
 
-CMakeFiles/rccar.dir/uart_main.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/rccar.dir/uart_main.c.s"
-	/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/k/Software/micro-processors/rp2040-rd-remote/c++/uart_main.c -o CMakeFiles/rccar.dir/uart_main.c.s
+CMakeFiles/rccar.dir/main.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/rccar.dir/main.c.s"
+	/opt/gcc-arm-none-eabi/bin/arm-none-eabi-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/k/Software/micro-processors/rp2040-rd-remote/c++/main.c -o CMakeFiles/rccar.dir/main.c.s
 
 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: CMakeFiles/rccar.dir/flags.make
 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj: /opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c
@@ -1026,7 +1026,7 @@ CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enum
 
 # Object files for target rccar
 rccar_OBJECTS = \
-"CMakeFiles/rccar.dir/uart_main.c.obj" \
+"CMakeFiles/rccar.dir/main.c.obj" \
 "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj" \
 "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj" \
 "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_platform/platform.c.obj" \
@@ -1099,7 +1099,7 @@ rccar_OBJECTS = \
 # External object files for target rccar
 rccar_EXTERNAL_OBJECTS =
 
-rccar.elf: CMakeFiles/rccar.dir/uart_main.c.obj
+rccar.elf: CMakeFiles/rccar.dir/main.c.obj
 rccar.elf: CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
 rccar.elf: CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
 rccar.elf: CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_platform/platform.c.obj

@@ -83,11 +83,11 @@ Discarded input sections
                 0x00000000       0xdb /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/crt0.o
  .ARM.attributes
                 0x00000000       0x1b /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/crt0.o
- .text          0x00000000        0x0 CMakeFiles/rccar.dir/uart_main.c.obj
- .data          0x00000000        0x0 CMakeFiles/rccar.dir/uart_main.c.obj
- .bss           0x00000000        0x0 CMakeFiles/rccar.dir/uart_main.c.obj
+ .text          0x00000000        0x0 CMakeFiles/rccar.dir/main.c.obj
+ .data          0x00000000        0x0 CMakeFiles/rccar.dir/main.c.obj
+ .bss           0x00000000        0x0 CMakeFiles/rccar.dir/main.c.obj
  .text.normalize
-                0x00000000       0x18 CMakeFiles/rccar.dir/uart_main.c.obj
+                0x00000000       0x18 CMakeFiles/rccar.dir/main.c.obj
  .text          0x00000000        0x0 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
  .data          0x00000000        0x0 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
  .bss           0x00000000        0x0 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
@@ -1159,9 +1159,9 @@ Discarded input sections
  .comment       0x00000000       0x56 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj
  .ARM.attributes
                 0x00000000       0x2c CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj
- .text          0x00000000        0x0 /tmp/cc3SiLE7.o
- .data          0x00000000        0x0 /tmp/cc3SiLE7.o
- .bss           0x00000000        0x0 /tmp/cc3SiLE7.o
+ .text          0x00000000        0x0 /tmp/cc4eUsHw.o
+ .data          0x00000000        0x0 /tmp/cc4eUsHw.o
+ .bss           0x00000000        0x0 /tmp/cc4eUsHw.o
  .data          0x00000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .bss           0x00000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .text          0x00000000        0x0 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libc.a(libc_a-malloc.o)
@@ -1480,7 +1480,7 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
 .boot2          0x10000000      0x100
                 0x10000000                        __boot2_start__ = .
  *(.boot2)
- .boot2         0x10000000      0x100 /tmp/cc3SiLE7.o
+ .boot2         0x10000000      0x100 /tmp/cc4eUsHw.o
                 0x10000100                        __boot2_end__ = .
                 0x00000001                        ASSERT (((__boot2_end__ - __boot2_start__) == 0x100), ERROR: Pico second stage bootloader must be 256 bytes in size)
 
@@ -1549,10 +1549,10 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
  .text.frame_dummy
                 0x100002e4       0x24 /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/crtbegin.o
  .text.on_uart_rx
-                0x10000308       0xec CMakeFiles/rccar.dir/uart_main.c.obj
+                0x10000308       0xec CMakeFiles/rccar.dir/main.c.obj
                 0x10000308                on_uart_rx
  .text.startup.main
-                0x100003f4      0x13c CMakeFiles/rccar.dir/uart_main.c.obj
+                0x100003f4      0x13c CMakeFiles/rccar.dir/main.c.obj
                 0x100003f4                main
  .text.gpio_set_function
                 0x10000530       0x30 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
@@ -2149,7 +2149,7 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
 .rodata         0x10006ce8      0x52c
  *(EXCLUDE_FILE(*libm.a: *libc.a:*lib_a-mem*.o *libgcc.a:) .rodata*)
  .rodata.main.str1.4
-                0x10006ce8       0x56 CMakeFiles/rccar.dir/uart_main.c.obj
+                0x10006ce8       0x56 CMakeFiles/rccar.dir/main.c.obj
  *fill*         0x10006d3e        0x2 
  .rodata.spin_lock_claim_unused.str1.4
                 0x10006d40       0x1b CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_sync/sync.c.obj
@@ -2424,7 +2424,7 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
                 0x20000ee0                        . = ALIGN (0x4)
                 0x20000ee0                        __bss_start__ = .
  *(SORT_BY_ALIGNMENT(SORT_BY_NAME(.bss*)))
- .bss.channel   0x20000ee0        0xc CMakeFiles/rccar.dir/uart_main.c.obj
+ .bss.channel   0x20000ee0        0xc CMakeFiles/rccar.dir/main.c.obj
                 0x20000ee0                channel
  *fill*         0x20000eec        0x4 
  .bss.configured_freq
@@ -2460,7 +2460,7 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
                 0x20001664       0x10 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
  .bss.boot2_copyout
                 0x20001674      0x100 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_flash/flash.c.obj
- .bss.buffer    0x20001774       0x20 CMakeFiles/rccar.dir/uart_main.c.obj
+ .bss.buffer    0x20001774       0x20 CMakeFiles/rccar.dir/main.c.obj
                 0x20001774                buffer
  .bss.chars_available_callback
                 0x20001794        0x4 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
@@ -2507,11 +2507,11 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
  .bss.usbd_serial_str
                 0x20001c7c       0x11 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj
  *fill*         0x20001c8d        0x1 
- .bss.chksum    0x20001c8e        0x2 CMakeFiles/rccar.dir/uart_main.c.obj
+ .bss.chksum    0x20001c8e        0x2 CMakeFiles/rccar.dir/main.c.obj
                 0x20001c8e                chksum
- .bss.hchksum   0x20001c90        0x2 CMakeFiles/rccar.dir/uart_main.c.obj
+ .bss.hchksum   0x20001c90        0x2 CMakeFiles/rccar.dir/main.c.obj
                 0x20001c90                hchksum
- .bss.lchksum   0x20001c92        0x2 CMakeFiles/rccar.dir/uart_main.c.obj
+ .bss.lchksum   0x20001c92        0x2 CMakeFiles/rccar.dir/main.c.obj
                 0x20001c92                lchksum
  .bss._app_driver_count
                 0x20001c94        0x1 CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/device/usbd.c.obj
@@ -2523,13 +2523,13 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
  .bss.irq_hander_chain_free_slot_head
                 0x20001c98        0x1 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_irq/irq.c.obj
  .bss.itf_num   0x20001c99        0x1 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/reset_interface.c.obj
- .bss.len       0x20001c9a        0x1 CMakeFiles/rccar.dir/uart_main.c.obj
+ .bss.len       0x20001c9a        0x1 CMakeFiles/rccar.dir/main.c.obj
                 0x20001c9a                len
  .bss.low_priority_irq_num
                 0x20001c9b        0x1 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
  .bss.one_shot_timer_pending
                 0x20001c9c        0x1 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb.c.obj
- .bss.ptr       0x20001c9d        0x1 CMakeFiles/rccar.dir/uart_main.c.obj
+ .bss.ptr       0x20001c9d        0x1 CMakeFiles/rccar.dir/main.c.obj
                 0x20001c9d                ptr
  .bss.timer_callbacks_pending
                 0x20001c9e        0x1 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_timer/timer.c.obj
@@ -2563,7 +2563,7 @@ LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-
                 0x20042000                        PROVIDE (__stack = __StackTop)
                 0x00000001                        ASSERT ((__StackLimit >= __HeapLimit), region RAM overflowed)
                 0x00000001                        ASSERT (((__binary_info_header_end - __logical_binary_start) <= 0x100), Binary info must be in first 256 bytes of the binary)
-LOAD CMakeFiles/rccar.dir/uart_main.c.obj
+LOAD CMakeFiles/rccar.dir/main.c.obj
 LOAD CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj
 LOAD CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
 LOAD CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_platform/platform.c.obj
@@ -2632,7 +2632,7 @@ LOAD CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/video/video_device.
 LOAD CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/tusb.c.obj
 LOAD CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
 LOAD CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_fix/rp2040_usb_device_enumeration/rp2040_usb_device_enumeration.c.obj
-LOAD /tmp/cc3SiLE7.o
+LOAD /tmp/cc4eUsHw.o
 LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libstdc++.a
 LOAD /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp/libm.a
 START GROUP
@@ -2656,7 +2656,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x0000001e       0x2c /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/crtbegin.o
  .ARM.attributes
-                0x0000004a       0x2c CMakeFiles/rccar.dir/uart_main.c.obj
+                0x0000004a       0x2c CMakeFiles/rccar.dir/main.c.obj
  .ARM.attributes
                 0x00000076       0x2c CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
  .ARM.attributes
@@ -2748,7 +2748,7 @@ LOAD linker stubs
  .ARM.attributes
                 0x000007a2       0x2c CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/common/tusb_fifo.c.obj
  .ARM.attributes
-                0x000007ce       0x22 /tmp/cc3SiLE7.o
+                0x000007ce       0x22 /tmp/cc4eUsHw.o
  .ARM.attributes
                 0x000007f0       0x1e /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/libgcc.a(_dvmd_tls.o)
  .ARM.attributes
@@ -2757,7 +2757,7 @@ LOAD linker stubs
                 0x0000083a       0x2c /opt/gcc-arm-none-eabi/bin/../lib/gcc/arm-none-eabi/12.2.1/thumb/v6-m/nofp/crtend.o
 
 .comment        0x00000000       0x55
- .comment       0x00000000       0x55 CMakeFiles/rccar.dir/uart_main.c.obj
+ .comment       0x00000000       0x55 CMakeFiles/rccar.dir/main.c.obj
                                  0x56 (size before relaxing)
  .comment       0x00000055       0x56 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/hardware_gpio/gpio.c.obj
  .comment       0x00000055       0x56 CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_platform/platform.c.obj

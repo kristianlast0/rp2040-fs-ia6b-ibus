@@ -119,6 +119,7 @@ set(CMAKE_ASM_TARGET_INCLUDE_PATH
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/k/Software/micro-processors/rp2040-rd-remote/c++/main.c" "CMakeFiles/rccar.dir/main.c.obj" "gcc" "CMakeFiles/rccar.dir/main.c.obj.d"
   "/opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c" "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj" "gcc" "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj.d"
   "/opt/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c" "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj" "gcc" "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/cdc/cdc_device.c.obj.d"
   "/opt/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c" "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c.obj" "gcc" "CMakeFiles/rccar.dir/opt/pico-sdk/lib/tinyusb/src/class/dfu/dfu_device.c.obj.d"
@@ -175,7 +176,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj" "gcc" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdio_usb/stdio_usb_descriptors.c.obj.d"
   "/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj" "gcc" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_stdlib/stdlib.c.obj.d"
   "/opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj" "gcc" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.obj.d"
-  "/home/k/Software/micro-processors/rp2040-rd-remote/c++/uart_main.c" "CMakeFiles/rccar.dir/uart_main.c.obj" "gcc" "CMakeFiles/rccar.dir/uart_main.c.obj.d"
   "/opt/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj" "gcc" "CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_standard_link/new_delete.cpp.obj.d"
   )
 

@@ -33,11 +33,10 @@
 #define PARITY UART_PARITY_NONE
 #define PROTOCOL_LENGTH 0x20
 #define PROTOCOL_OVERHEAD 0x03
-#define PROTOCOL_COMMAND40 0x40;
-#define PROTOCOL_TIMEGAP 3
+#define PROTOCOL_COMMAND40 0x40
 #define PROTOCOL_CHANNELS 6
 #define UART_RX_PIN 5
-#define LED_PIN 18
+#define RED_PIN 18
 
 uint16_t channel[PROTOCOL_CHANNELS];
 uint8_t buffer[32];
@@ -70,7 +69,7 @@ void on_uart_rx() {
         hchksum = uart_getc(UART_ID); // get checksum high byte
         if(chksum == (hchksum << 8) + lchksum) {
             // valid servo command received
-            if(buffer[0] == 0x40) {
+            if(buffer[0] == PROTOCOL_COMMAND40) {
                 // extract channel data from buffer
                 for (uint8_t i = 1; i < PROTOCOL_CHANNELS * 2 + 1; i += 2) {
                     channel[i / 2] = buffer[i] | (buffer[i + 1] << 8);
@@ -83,12 +82,11 @@ void on_uart_rx() {
 int main() {
     // Initialize the standard I/O library
     stdio_init_all();
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
+    gpio_init(RED_PIN);
+    gpio_set_dir(RED_PIN, GPIO_OUT);
     // Set up our UART with a basic baud rate.
     uart_init(UART_ID, BAUD_RATE);
     // Set the TX and RX pins by using the function select on the GPIO
-    // Set datasheet for more information on function select
     gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART);
     // Set UART flow control CTS/RTS, we don't want these, so turn them off
     uart_set_hw_flow(UART_ID, false, false);
@@ -105,9 +103,9 @@ int main() {
     uart_set_irq_enables(UART_ID, true, false);
     // The main loop
     while (true) {
-        gpio_put(LED_PIN, 1);
+        gpio_put(RED_PIN, 1);
         sleep_ms(250);
-        gpio_put(LED_PIN, 0);
+        gpio_put(RED_PIN, 0);
         sleep_ms(250);
         printf(
             "Channel 1: %d Channel 2: %d Channel 3: %d Channel 4: %d Channel 5: %d Channel 6: %d \n",

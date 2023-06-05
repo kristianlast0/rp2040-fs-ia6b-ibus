@@ -1,5 +1,5 @@
-CMakeFiles/rccar.dir/uart_main.c.obj: \
- /home/k/Software/micro-processors/rp2040-rd-remote/c++/uart_main.c \
+CMakeFiles/rccar.dir/main.c.obj: \
+ /home/k/Software/micro-processors/rp2040-rd-remote/c++/main.c \
  /opt/gcc-arm-none-eabi/arm-none-eabi/include/stdio.h \
  /opt/gcc-arm-none-eabi/arm-none-eabi/include/_ansi.h \
  /opt/gcc-arm-none-eabi/arm-none-eabi/include/newlib.h \

@@ -207,6 +207,30 @@ cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast:
 	$(MAKE) $(MAKESILENT) -f pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/cyw43_driver_picow_cyw43_bus_pio_spi_pio_h.dir/build.make pico-sdk/src/rp2_common/pico_cyw43_driver/CMakeFiles/cyw43_driver_picow_cyw43_bus_pio_spi_pio_h.dir/build
 .PHONY : cyw43_driver_picow_cyw43_bus_pio_spi_pio_h/fast
 
+main.obj: main.c.obj
+.PHONY : main.obj
+
+# target to build an object file
+main.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rccar.dir/build.make CMakeFiles/rccar.dir/main.c.obj
+.PHONY : main.c.obj
+
+main.i: main.c.i
+.PHONY : main.i
+
+# target to preprocess a source file
+main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rccar.dir/build.make CMakeFiles/rccar.dir/main.c.i
+.PHONY : main.c.i
+
+main.s: main.c.s
+.PHONY : main.s
+
+# target to generate assembly for a file
+main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/rccar.dir/build.make CMakeFiles/rccar.dir/main.c.s
+.PHONY : main.c.s
+
 opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.obj: opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.c.obj
 .PHONY : opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.obj
 
@@ -1663,30 +1687,6 @@ opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/rccar.dir/build.make CMakeFiles/rccar.dir/opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.s
 .PHONY : opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.c.s
 
-uart_main.obj: uart_main.c.obj
-.PHONY : uart_main.obj
-
-# target to build an object file
-uart_main.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rccar.dir/build.make CMakeFiles/rccar.dir/uart_main.c.obj
-.PHONY : uart_main.c.obj
-
-uart_main.i: uart_main.c.i
-.PHONY : uart_main.i
-
-# target to preprocess a source file
-uart_main.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rccar.dir/build.make CMakeFiles/rccar.dir/uart_main.c.i
-.PHONY : uart_main.c.i
-
-uart_main.s: uart_main.c.s
-.PHONY : uart_main.s
-
-# target to generate assembly for a file
-uart_main.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/rccar.dir/build.make CMakeFiles/rccar.dir/uart_main.c.s
-.PHONY : uart_main.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1702,6 +1702,9 @@ help:
 	@echo "... cyw43_driver_picow_cyw43_bus_pio_spi_pio_h"
 	@echo "... bs2_default"
 	@echo "... rccar"
+	@echo "... main.obj"
+	@echo "... main.i"
+	@echo "... main.s"
 	@echo "... opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.obj"
 	@echo "... opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.i"
 	@echo "... opt/pico-sdk/lib/tinyusb/src/class/audio/audio_device.s"
@@ -1884,9 +1887,6 @@ help:
 	@echo "... opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.obj"
 	@echo "... opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.i"
 	@echo "... opt/pico-sdk/src/rp2_common/pico_unique_id/unique_id.s"
-	@echo "... uart_main.obj"
-	@echo "... uart_main.i"
-	@echo "... uart_main.s"
 .PHONY : help
 
 
