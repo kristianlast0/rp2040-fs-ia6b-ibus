@@ -17,6 +17,10 @@ CMakeFiles/rccar.dir/main.c.obj: \
  /opt/gcc-arm-none-eabi/arm-none-eabi/include/machine/_types.h \
  /opt/gcc-arm-none-eabi/arm-none-eabi/include/sys/lock.h \
  /opt/gcc-arm-none-eabi/arm-none-eabi/include/sys/stdio.h \
+ /opt/gcc-arm-none-eabi/arm-none-eabi/include/math.h \
+ /opt/gcc-arm-none-eabi/arm-none-eabi/include/stdlib.h \
+ /opt/gcc-arm-none-eabi/arm-none-eabi/include/machine/stdlib.h \
+ /opt/gcc-arm-none-eabi/arm-none-eabi/include/alloca.h \
  /opt/pico-sdk/src/common/pico_stdlib/include/pico/stdlib.h \
  /opt/pico-sdk/src/common/pico_base/include/pico.h \
  /opt/pico-sdk/src/common/pico_base/include/pico/types.h \
@@ -58,4 +62,7 @@ CMakeFiles/rccar.dir/main.c.obj: \
  /opt/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/uart.h \
  /opt/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/uart.h \
  /opt/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/dreq.h \
- /opt/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h
+ /opt/pico-sdk/src/rp2_common/pico_stdio_usb/include/pico/stdio_usb.h \
+ /opt/pico-sdk/src/rp2_common/hardware_pwm/include/hardware/pwm.h \
+ /opt/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/pwm.h \
+ /opt/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/pwm.h

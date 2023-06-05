@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 #include "pico/stdlib.h"
 #include "hardware/uart.h"
 #include "hardware/irq.h"
+#include "hardware/pwm.h"
 
 /*
   Example set of bytes coming over the iBUS line for setting servos: 
@@ -61,21 +63,16 @@ uint16_t chksum = 0;
 uint16_t lchksum = 0;
 uint16_t hchksum = 0;
 
-struct motorA {
-    pwm: PWM_A, // Pin PWM channel
-    in1: IN1A, // Pin
-    in2: IN2A, // Pin
-    speed: 0, // 0 - PWM_WRAP
-    direction: 1, // 1 = forward, 0 = backward
+struct Motor {
+    uint8_t pwm;
+    uint8_t in1;
+    uint8_t in2;
+    uint16_t speed;
+    uint8_t direction;
 };
 
-struct motorB {
-    pwm: PWM_B, // Pin PWM channel
-    in1: IN1B, // Pin
-    in2: IN2B, // Pin
-    speed: 0, // 0 - PWM_WRAP
-    direction: 1, // 1 = forward, 0 = backward
-};
+static struct Motor motorA = {PWM_A, IN1A, IN2A, 0, 1};
+static struct Motor motorB = {PWM_B, IN1B, IN2B, 0, 1};
 
 // Function to normalize values
 int normalize(double value, double old_min, double old_max, double new_min, double new_max) {
@@ -101,40 +98,23 @@ int calculate_motor_speeds() {
     uint16_t speed = channel[2]; // 1000 - 2000
     uint16_t steer = channel[0]; // 1000 - 2000
 
-    // check if moving foward or backward (+-10 tolerance)
-    if(speed >= 1510 && speed <= 2000) {
-        // forward
-        motorA.direction = 1;
-        motorB.direction = 1;
-    }
-    else if(speed >= 1000 && speed <= 1490) {
-        // backward
-        motorA.direction = 0;
-        motorB.direction = 0;
-    }
-    else {
-        // stop
-        motorA.direction = 1;
-        motorB.direction = 1;
-        speed = 1500;
-    }
+    motorA.direction = 1;
+    motorB.direction = 1;
 
-    // STEERING POWER ==================================================================================================
-    if(steer > 1510 && steer <= 2000) {
-        // turn right - reduce speed of motorB
-        double turn_perc = (steer-1500)/500*100;
-        // reduce the speed of motorB by turn_perc
-        speed_reduction = speed * (turn_perc/100);
-        // set motorB (right wheel) speed to speed-speed_reduction to turn right
+    // reduce power for steer left/right
+    if(steer >= 1510 && steer <= 2000) {
+        uint16_t turn_amount = steer-1500;
+        uint8_t turn_perc = round((turn_amount/500.0)*100);
+        uint16_t speed_reduction = round(1000*(turn_perc/100.0));
         motorB.speed = normalize(round(speed-speed_reduction), 1000, 2000, 0, PWM_WRAP);
+        motorA.speed = normalize(speed, 1000, 2000, 0, PWM_WRAP);
     }
-    else if(steer >= 1000 && steer < 1490) {
-        // turn left - reduce speed of motorB
-        double turn_perc = abs(steer-1500)/500*100;
-        // reduce the speed of motorB by turn_perc
-        speed_reduction = speed * (turn_perc/100);
-        // set motorB (left wheel) speed to speed-speed_reduction to turn left
+    else if(steer >= 1000 && steer <= 1490) {
+        uint16_t turn_amount = abs(steer - 1500);
+        uint8_t turn_perc = round((turn_amount/500.0)*100);
+        uint16_t speed_reduction = 1000 * (turn_perc/100.0);
         motorA.speed = normalize(round(speed-speed_reduction), 1000, 2000, 0, PWM_WRAP);
+        motorB.speed = normalize(speed, 1000, 2000, 0, PWM_WRAP);
     }
     else {
         // both motors are same speed
@@ -142,13 +122,13 @@ int calculate_motor_speeds() {
         motorB.speed = normalize(speed, 1000, 2000, 0, PWM_WRAP);
     }
 
-    printf("A: %d B: %d\n", motorA.speed, motorB.speed);
+    printf("LeftA: %d RightB: %d\n", motorA.speed, motorB.speed);
 
 }
 
 // set a motor direction
-void update_motor(struct motor) {
-    if (direction == 0) {
+void update_motor(struct Motor motor) {
+    if (motor.direction == 0) {
         // Backwards // write motor.IN1 = LOW and motor.IN2 = HIGH
         gpio_put(motor.in1, 0);
         gpio_put(motor.in2, 1);
@@ -157,7 +137,6 @@ void update_motor(struct motor) {
         gpio_put(motor.in1, 1);
         gpio_put(motor.in2, 0);
     }
-    // write motor.PWM = speed
     pwm_set_gpio_level(motor.pwm, motor.speed);
 }
 
@@ -192,7 +171,7 @@ void on_uart_rx() {
 int main() {
     // Initialize the standard I/O library and setup LED pin
     stdio_init_all();
-    gpio_init(RED_PIN, motorA.in1, motorA.in2, motorB.in1, motorB.in2, STBY);
+    gpio_init(RED_PIN);
     gpio_set_dir(RED_PIN, GPIO_OUT);
     // Init the UART for our receiver
     // Set up our UART with a basic baud rate.
@@ -213,11 +192,16 @@ int main() {
     // Now enable the UART to send interrupts - RX only
     uart_set_irq_enables(UART_ID, true, false);
     // Initialize motors =======================================================
-    // enable GPIO port to PWM
+    gpio_init(motorA.in1);
+    gpio_init(motorA.in2);
+    gpio_init(motorB.in1);
+    gpio_init(motorB.in2);
+    gpio_init(STBY);
     gpio_set_dir(motorA.in1, GPIO_OUT);
     gpio_set_dir(motorA.in2, GPIO_OUT);
     gpio_set_dir(motorB.in1, GPIO_OUT);
     gpio_set_dir(motorB.in2, GPIO_OUT);
+    gpio_set_dir(STBY, GPIO_OUT);
     // set GPIO function to PWM
     gpio_set_function(motorA.pwm, GPIO_FUNC_PWM);
     gpio_set_function(motorB.pwm, GPIO_FUNC_PWM);
@@ -233,23 +217,17 @@ int main() {
     // set PWM channels
     pwm_set_chan_level(slice_numA, motorA.pwm, motorA.speed);
     pwm_set_chan_level(slice_numB, motorB.pwm, motorB.speed);
+
+    gpio_put(RED_PIN, 1);
+    gpio_put(STBY, 0);
+    sleep_ms(2000);
+    gpio_put(RED_PIN, 0);
+    gpio_put(STBY, 1);
+
     // The main loop
     while (true) {
-        gpio_put(RED_PIN, 1);
-        sleep_ms(250);
-        gpio_put(RED_PIN, 0);
-        sleep_ms(250);
-        printf(
-            "Channel 1: %d Channel 2: %d Channel 3: %d Channel 4: %d Channel 5: %d Channel 6: %d \n",
-            channel[0], // right stick left/right - steering
-            channel[1], // right stick up/down
-            channel[2], // acceleration - left stick up/down
-            channel[3], // left stick left/right
-            channel[4], // potentiometer left
-            channel[5] // potentiometer right
-        );
         calculate_motor_speeds();
-        // update_motor(motorA);
-        // update_motor(motorB);
+        update_motor(motorA);
+        update_motor(motorB);
     }
 }
